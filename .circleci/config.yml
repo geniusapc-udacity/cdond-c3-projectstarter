@@ -73,7 +73,7 @@ jobs:
           keys: [frontend-build]
       - run:
           name: scan-frontend
-          commands: |
+          command: |
             cd frontend
             npm install
             npm audit --audit-level=critical
@@ -87,7 +87,7 @@ jobs:
           keys: [backend-build]
       - run:
           name: scan-backend
-          commands: |
+          command: |
             cd backend
             npm install
             npm audit --audit-level=critical
