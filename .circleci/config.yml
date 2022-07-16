@@ -43,9 +43,12 @@ jobs:
       - checkout
       - restore_cache:
           keys: [frontend-build]
-      - run: cd frontend
-          npm install
-          npm run test
+      - run:
+          name: Frontend test
+          command: |
+            cd frontend
+            npm install
+            npm run test
 
   test-backend:
     docker:
@@ -54,9 +57,12 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
-      - run: cd backend
-          npm install
-          npm run test
+      - run:
+          name: Backend test
+          command: |
+            cd backend
+            npm install
+            npm run test
 
 workflows:
   default:
