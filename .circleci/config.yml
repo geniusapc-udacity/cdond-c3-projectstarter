@@ -7,11 +7,17 @@ commands:
     steps:
       - slack/notify:
           event: fail
-          mentions: '@EngineeringTeam'
+          mentions: '@here'
           template: basic_fail_1
       - slack/notify:
           event: pass
           template: success_tagged_deploy_1
+  error-notification-slack:
+    steps:
+      - slack/notify:
+          event: fail
+          mentions: '@here'
+          template: basic_fail_1
 
 jobs:
   build-frontend:
@@ -30,7 +36,7 @@ jobs:
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
-      - notify-slack
+      - error-notification-slack
 
   build-backend:
     docker:
@@ -49,6 +55,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
+      - error-notification-slack
 
   test-frontend:
     docker:
@@ -62,7 +69,8 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm run test
+            npm run
+      - error-notification-slack
 
   test-backend:
     docker:
@@ -77,6 +85,7 @@ jobs:
             cd backend
             npm install
             npm run test
+      - error-notification-slack
 
   scan-frontend:
     docker:
@@ -92,6 +101,7 @@ jobs:
             npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+      - error-notification-slack
 
   scan-backend:
     docker:
@@ -106,36 +116,14 @@ jobs:
             cd backend
             npm install
             npm audit fix --audit-level=critical --force
-            exit 0
+            exit 1
             # manual update required for webpack
             # npm audit --audit-level=critical
-
-  notify:
-    docker:
-      - image: 'cimg/base:stable'
-    steps:
-      - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "*This is a text notification*",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
-          event: always
+      - error-notification-slack
 
 workflows:
   default:
     jobs:
-      - notify
       - build-frontend
       - build-backend
       - test-frontend:
