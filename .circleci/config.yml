@@ -155,9 +155,7 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text >> .circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
-            pwd
-            ls ../
-            pwd
+   
       - persist_to_workspace:
           root: ~/
           paths:
@@ -167,10 +165,12 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
-      - checkout
       - run:
           name: check inventory after
           command: |
+            pwd
+            ls
+            cat ~/project/.circleci/ansible/inventory.txt
             cat .circleci/ansible/inventory.txt
             ls
 
