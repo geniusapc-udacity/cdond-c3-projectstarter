@@ -143,9 +143,12 @@ jobs:
               --stack-name InitialStack \
              --parameter-overrides ID=udapeople-kk1j287dhjppmz345
       - run:
+          name: Install tar
+          command: |
+            yum install tar
+      - run:
           name: Add back-end ip to ansible inventory
           command: |
-            ls
             echo "[all]" > .circleci/ansible/inventory.txt
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
