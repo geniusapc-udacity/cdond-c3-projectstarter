@@ -166,6 +166,8 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/project/.circleci/ansible/inventory.txt
       - run:
           name: check inventory after
           command: |
