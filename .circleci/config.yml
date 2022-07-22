@@ -18,7 +18,13 @@ commands:
           event: fail
           mentions: '@here'
           template: basic_fail_1
-
+  install-tar-and-zip:
+    step:
+      - run:
+          name: Install tar and gzip
+          command: |
+            yum install tar -y
+            yum install gzip -y
 jobs:
   build-frontend:
     docker:
@@ -142,11 +148,7 @@ jobs:
       #         --tags project=udapeople \
       #         --stack-name InitialStack \
       #        --parameter-overrides ID=udapeople-kk1j287dhjppmz345
-      - run:
-          name: Install tar and gzip
-          command: |
-            yum install tar -y
-            yum install gzip -y
+      - install-tar-and-zip
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -166,6 +168,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - install-tar-and-zip
       - attach_workspace:
           at: ~/project/.circleci/ansible/inventory.txt
       - run:
