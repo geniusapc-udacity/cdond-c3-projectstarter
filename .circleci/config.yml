@@ -126,9 +126,9 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - run:
-        name: check file before checkout
-        command: |
-          ls
+          name: check file before checkout
+          command: |
+            ls
       - checkout
       - run:
           name: Ensure back-end infrastructure exists
