@@ -1,7 +1,6 @@
 version: 2.1
 orbs:
   slack: circleci/slack@4.10.1
-  aws-cli: circleci/aws-cli@3.1.1
 
 commands:
   notify-slack:
@@ -142,11 +141,15 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=udapeople \
               --stack-name InitialStack \
-             --parameter-overrides ID=udapeople-kk1j287dhjppmz345  
+             --parameter-overrides ID=udapeople-kk1j287dhjppmz345
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            # Your code here
+            echo "[all]" > project/.circleci/ansible/inventory.txt
+            aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> project/.circleci/ansible/inventory.txt
+            echo project/.circleci/ansible/inventory.txt
             exit 0
       # - persist_to_workspace:
       #     root: ~/
