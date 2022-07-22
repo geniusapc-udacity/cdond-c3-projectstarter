@@ -125,6 +125,10 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps:
+      - run:
+        name: check file before checkout
+        command: |
+          ls
       - checkout
       - run:
           name: Ensure back-end infrastructure exists
@@ -143,9 +147,10 @@ jobs:
               --stack-name InitialStack \
              --parameter-overrides ID=udapeople-kk1j287dhjppmz345
       - run:
-          name: Install tar
+          name: Install tar and gzip
           command: |
             yum install tar -y
+            yum install gzip -y
       - run:
           name: Add back-end ip to ansible inventory
           command: |
