@@ -143,6 +143,10 @@ jobs:
               --stack-name InitialStack \
              --parameter-overrides ID=udapeople-kk1j287dhjppmz345
       - run:
+          name: check inventory
+          command: |
+            cat .circleci/ansible/inventory.txt
+      - run:
           name: Add back-end ip to ansible inventory
           command: |
             ls
@@ -150,12 +154,16 @@ jobs:
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text >> .circleci/ansible/inventory.txt
-            echo .circleci/ansible/inventory.txt
-            exit 0
+            cat .circleci/ansible/inventory.txt
+      - run:
+          name: check inventory after
+          command: |
+            cat .circleci/ansible/inventory.txt
+
       # - persist_to_workspace:
       #     root: ~/
       #     paths:
-      #       - project/.circleci/ansible/inventory.txt
+      #       - .circleci/ansible/inventory.txt
       # Here's where you will add some code to rollback on failure
 workflows:
   default:
