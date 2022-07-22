@@ -170,7 +170,7 @@ jobs:
       - checkout
       - install-tar-and-zip
       - attach_workspace:
-          at: ~/project/.circleci/ansible/inventory.txt
+          at: ~/project/.circleci/
       - run:
           name: check inventory after
           command: |
