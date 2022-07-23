@@ -19,7 +19,7 @@ commands:
           mentions: '@here'
           template: basic_fail_1
   install-tar-and-zip:
-    step:
+    steps:
       - run:
           name: Install tar and gzip
           command: |
