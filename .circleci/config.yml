@@ -19,7 +19,7 @@ commands:
           mentions: '@here'
           template: basic_fail_1
   install-tar-and-zip:
-    steps:
+    step:
       - run:
           name: Install tar and gzip
           command: |
@@ -152,16 +152,16 @@ jobs:
       - run:
           name: Add back-end ip to ansible inventory
           command: |
-            echo "[all]" > .circleci/ansible/inventory.txt
+            echo "[all]" > .circleci/ansible/inventory
             aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text >> .circleci/ansible/inventory.txt
-            cat .circleci/ansible/inventory.txt
+              --output text >> .circleci/ansible/inventory
+            cat .circleci/ansible/inventory
 
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory
       # Here's where you will add some code to rollback on failure
   check-inventory:
     docker:
@@ -170,15 +170,14 @@ jobs:
       - checkout
       - install-tar-and-zip
       - attach_workspace:
-          at: ~/project/.circleci/
+          at: ~/project/.circleci/ansible/inventory
       - run:
           name: check inventory after
           command: |
             pwd
-            ls
+            ls -al
             cat ~/project/.circleci/ansible/inventory.txt
-            cat .circleci/ansible/inventory.txt
-            ls
+            cat ~/project/.circleci/ansible/inventory
 
 workflows:
   default:
