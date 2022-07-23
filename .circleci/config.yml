@@ -159,9 +159,13 @@ jobs:
             cat .circleci/ansible/inventory
 
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: ~/
           paths:
             - project/.circleci/ansible/inventory
+      - run:
+          name: check inventory
+          command: |
+            cat .circleci/ansible/inventory
 
       # Here's where you will add some code to rollback on failure
   check-inventory:
@@ -171,13 +175,14 @@ jobs:
       - checkout
       - install-tar-and-zip
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/project/.circleci/ansible/inventory
       - run:
           name: check inventory after
           command: |
             pwd
-            ls /tmp/workspace
-
+            ls -al
+            cat ~/project/.circleci/ansible/inventory.txt
+            cat ~/project/.circleci/ansible/inventory
 
 workflows:
   default:
