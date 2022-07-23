@@ -202,5 +202,3 @@ workflows:
         # filters:
         #   branches:
         #     only: [master]
-      - check-inventory:
-          requires: [deploy-infrastructure]
