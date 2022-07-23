@@ -161,7 +161,8 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/.circleci/ansible/inventory
+            - project/.circleci/ansible/
+
       # Here's where you will add some code to rollback on failure
   check-inventory:
     docker:
@@ -170,7 +171,7 @@ jobs:
       - checkout
       - install-tar-and-zip
       - attach_workspace:
-          at: ~/project/.circleci/ansible/inventory
+          at: ~/project/.circleci/ansible/
       - run:
           name: check inventory after
           command: |
