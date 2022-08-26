@@ -18,13 +18,13 @@ import { EmployeeModule } from '../domain/employees/employee.module';
   imports: [
     StatusModule,
     ConfigModule,
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => config.TypeOrmDatabase,
-    }),
-    OrdersModule,
-    EmployeeModule,
+    // TypeOrmModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => config.TypeOrmDatabase,
+    // }),
+    // OrdersModule,
+    // EmployeeModule,
   ],
   controllers: [StatusController],
   providers: [AppService, AppLogger],
