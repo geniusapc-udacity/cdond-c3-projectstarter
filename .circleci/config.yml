@@ -173,10 +173,13 @@ jobs:
           at: ~/
 
       - run:
+          name: Install dependencies (openssh)
+          command: |
+            apk add --update openssh
+      - run: 
           name: Install dependencies
           command: |
             apk add --update ansible
-            apk add openssl
       - run:
           name: Configure server
           command: |
