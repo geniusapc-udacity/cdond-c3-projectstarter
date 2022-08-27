@@ -180,6 +180,7 @@ jobs:
       - run:
           name: Configure server
           command: |
+            ls
             cat .circleci/ansible/inventory.txt
             echo "prince2"
             cd .circleci/ansible
