@@ -167,6 +167,7 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - install-tar-and-zip
       - add_ssh_keys:
           fingerprints: ['5e:d1:7e:80:13:b5:72:7d:b3:54:8c:91:1f:3c:fd:b3']
       - attach_workspace:
@@ -181,12 +182,10 @@ jobs:
           name: Configure server
           command: |
             ls
-            cat .circleci/ansible/inventory.txt
-            echo "prince2"
             cd .circleci/ansible
             pwd
+            cat .circleci/ansible/inventory.txt
             cat inventory.txt
-            cat configure-server.yml
             ansible-playbook -i inventory.txt configure-server.yml
       # Here's where you will add some code to rollback on failure
 
