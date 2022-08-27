@@ -167,7 +167,6 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
-      - install-tar-and-zip
       - add_ssh_keys:
           fingerprints: ['5e:d1:7e:80:13:b5:72:7d:b3:54:8c:91:1f:3c:fd:b3']
       - attach_workspace:
