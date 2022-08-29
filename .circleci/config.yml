@@ -147,7 +147,7 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=udapeople \
               --stack-name InitialStack \
-              --parameter-overrides ID=udapeople-kk1j287dhjppmz345
+              --parameter-overrides ID="kk1j287dhjppmz345-${CIRCLE_WORKFLOW_ID:0:7}"
       - install-tar-and-zip
       - run:
           name: Add back-end ip to ansible inventory.txt
@@ -243,7 +243,7 @@ jobs:
             cd frontend
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
-            aws s3 cp dist s3://udapeople-kk1j287dhjppmz345 --recursive
+            aws s3 cp dist s3://"kk1j287dhjppmz345-${CIRCLE_WORKFLOW_ID:0:7}" --recursive
       - error-notification-slack
   
   
