@@ -222,7 +222,8 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            yum install nodejs npm --enablerepo=epel
+            curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
+            sudo yum install nodejs
             cd frontend
             npm install
       - run:
