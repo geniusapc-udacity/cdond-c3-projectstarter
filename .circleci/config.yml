@@ -193,7 +193,7 @@ jobs:
 
   run-migrations:
     docker:
-      - image: cimg/node:18.8.0
+       - image: circleci/node:13.8.0
     steps:
       - checkout
       # - restore_cache:
@@ -216,12 +216,13 @@ jobs:
       #       fi  
   deploy-frontend:
     docker:
-      - image: circleci/node:13.8.0
+        - image: amazon/aws-cli
     steps:
       - checkout
       - run:
-          name: Install dependencies and build frontend
+          name: Install dependencies
           command: |
+            yum install nodejs npm --enablerepo=epel
             cd frontend
             npm install
       - run:
@@ -264,8 +265,9 @@ workflows:
         #   branches:
         #     only: [master]
       - configure-infrastructure:
-          requires: [deploy-infrastructure]
+          requires: [deploy-infrastructure] # remove
       # - run-migrations:
       #     requires: [configure-infrastructure]
-      - deploy-frontend
+      - deploy-frontend:
+          requires: [deploy-infrastructure] #remove
           # requires: [run-migrations]
