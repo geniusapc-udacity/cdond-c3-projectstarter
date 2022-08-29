@@ -223,7 +223,7 @@ jobs:
           name: Install dependencies
           command: |
             curl -sL https://rpm.nodesource.com/setup_14.x | bash -
-            yum install nodejs
+            yum install nodejs -y
             cd frontend
             npm install
       - run:
