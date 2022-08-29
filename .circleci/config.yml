@@ -196,7 +196,6 @@ jobs:
        - image: circleci/node:13.8.0
     steps:
       - checkout
-      - install-tar-and-zip
       # - restore_cache:
       #     keys: [backend-build]
       - run:
@@ -220,6 +219,7 @@ jobs:
         - image: amazon/aws-cli
     steps:
       - checkout
+      - install-tar-and-zip
       - run:
           name: Install dependencies
           command: |
