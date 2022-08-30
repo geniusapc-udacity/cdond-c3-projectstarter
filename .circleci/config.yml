@@ -210,10 +210,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-            ls
-            cat .circleci/ansible/inventory.txt
             cd .circleci/ansible
-            pwd
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy_environment
@@ -282,9 +279,11 @@ jobs:
       
   deploy-backend:
     docker:
-       - image: circleci/node:13.8.0
+        - image: cimg/base:stable
     steps:
       - checkout
+      - install_awscli
+      - install_ansible
       - add_ssh_keys:
           fingerprints: ['4d:44:9b:e8:3a:d7:28:7a:54:ec:32:b7:29:0e:64:c3']
       - attach_workspace:
