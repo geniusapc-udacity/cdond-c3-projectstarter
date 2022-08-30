@@ -25,6 +25,15 @@ commands:
           command: |
             yum install tar -y
             yum install gzip -y
+  install_awscli:
+    steps:
+      - run:
+          name: install AWS cli
+          command: |
+            sudo apt-get install -y unzip
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -147,6 +156,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - install-tar-and-zip
       - run:
           name: Ensure back-end infrastructure exists
           command: |
@@ -163,7 +173,6 @@ jobs:
               --tags project=udapeople \
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"
-      - install-tar-and-zip
       - run:
           name: Add back-end ip to ansible inventory.txt
           command: |
@@ -182,6 +191,7 @@ jobs:
       - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - install_awscli
       - add_ssh_keys:
           fingerprints: ['4d:44:9b:e8:3a:d7:28:7a:54:ec:32:b7:29:0e:64:c3']
       - attach_workspace:
@@ -212,6 +222,7 @@ jobs:
        - image: circleci/node:13.8.0
     steps:
       - checkout
+      - install_awscli
       - restore_cache:
           keys: [backend-build]
       - run:
