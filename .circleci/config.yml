@@ -260,17 +260,15 @@ jobs:
       - error-notification-slack
   deploy-frontend:
     docker:
-      - image: cimg/base:stable
+        - image: amazon/aws-cli
     steps:
       - checkout
       - install-tar-and-zip
-      - install_awscli
-      - install_nodejs
-      - restore_cache:
-          keys: [frontend-build]
       - run:
           name: Install dependencies
           command: |
+            curl -fsSL https://rpm.nodesource.com/setup_14.x | bash -
+            yum install nodejs -y
             cd frontend
             npm install
       - run:
