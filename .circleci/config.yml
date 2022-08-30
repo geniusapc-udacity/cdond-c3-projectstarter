@@ -44,6 +44,18 @@ commands:
             sudo apt-get install -y software-properties-common
             sudo apt-get install -y ansible
             
+  install_nodejs:
+    description: Add node
+    steps:
+      - run:
+          name: install node
+          command: |
+            sudo apt-get -y update
+            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            sudo apt install -y nodejs
+            sudo npm install --global n
+            sudo n 13.8.0
+            
   destroy_environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -284,6 +296,7 @@ jobs:
       - checkout
       - install_awscli
       - install_ansible
+      - install_nodejs
       - add_ssh_keys:
           fingerprints: ['4d:44:9b:e8:3a:d7:28:7a:54:ec:32:b7:29:0e:64:c3']
       - attach_workspace:
