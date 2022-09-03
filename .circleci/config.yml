@@ -51,7 +51,7 @@ commands:
           name: install node
           command: |
             sudo apt-get -y update
-            curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+            curl -fsSL https://deb.nodesource.com/setup_12.13.0 | sudo -E bash -
             sudo apt install -y nodejs
             sudo npm install --global n
             sudo n 13.8.0
@@ -92,7 +92,7 @@ jobs:
 
   build-backend:
     docker:
-      - image: circleci/node:13.8.0
+     - image: cimg/base:stable
     steps:
       - checkout
       - restore_cache:
@@ -242,10 +242,10 @@ jobs:
       - run:
           name: Run migrations
           command: |
-            exit 0
-            # cd backend
-            # npm install
-            # npm run migrations > migrations_dump.txt
+            cd backend
+            npm install
+            npm run migrations > migrations_dump.txt
+            cat migrations_dump.txt
       # - run:
       #     name: Send migration status to kvdb.io OR memstash.io
       #     command: |   
@@ -398,9 +398,9 @@ workflows:
           requires: [deploy-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
-      - deploy-frontend:
-          requires: [run-migrations]
-      - deploy-backend:
-          requires: [run-migrations]
-      - smoke-test:
-          requires: [deploy-backend, deploy-frontend]
+      # - deploy-frontend:
+      #     requires: [run-migrations]
+      # - deploy-backend:
+      #     requires: [run-migrations]
+      # - smoke-test:
+      #     requires: [deploy-backend, deploy-frontend]
