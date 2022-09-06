@@ -289,7 +289,7 @@ jobs:
           name: Get Backend Url
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
-            --query 'Reservations[0].Instances[*].PublicIpAddress' \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
@@ -417,7 +417,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name cloudfront-stack \
-              --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
             echo OldWorkflowID: $(cat ~/project/OldWorkflowID.txt)
             echo CurrentWorflowID: "${CIRCLE_WORKFLOW_ID:0:7}"
@@ -457,7 +457,7 @@ jobs:
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}" || true
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}" || true
             else
-              echo "Stack is the latest"
+              echo "Latest Stack"
             fi
 workflows:
   default:
